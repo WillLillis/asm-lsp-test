@@ -49,13 +49,14 @@ jobs:
       # Set environment variables for OpenSSL (Windows)
       - name: Set OpenSSL environment variables (Windows)
         if: matrix.os == 'windows-latest'
+        shell: pwsh
         run: |
-          set OPENSSL_DIR=C:\Program Files\OpenSSL-Win64
-          set OPENSSL_INCLUDE_DIR=C:\Program Files\OpenSSL-Win64\include
-          set OPENSSL_LIB_DIR=C:\Program Files\OpenSSL-Win64\lib
-          echo %OPENSSL_DIR%
-          echo %OPENSSL_INCLUDE_DIR%
-          echo %OPENSSL_LIB_DIR%
+          $env:OPENSSL_DIR = "C:\Program Files\OpenSSL"
+          $env:OPENSSL_INCLUDE_DIR = "C:\Program Files\OpenSSL\include"
+          $env:OPENSSL_LIB_DIR = "C:\Program Files\OpenSSL\lib"
+          [System.Environment]::SetEnvironmentVariable('OPENSSL_DIR', $env:OPENSSL_DIR, [System.EnvironmentVariableTarget]::Machine)
+          [System.Environment]::SetEnvironmentVariable('OPENSSL_INCLUDE_DIR', $env:OPENSSL_INCLUDE_DIR, [System.EnvironmentVariableTarget]::Machine)
+          [System.Environment]::SetEnvironmentVariable('OPENSSL_LIB_DIR', $env:OPENSSL_LIB_DIR, [System.EnvironmentVariableTarget]::Machine)
 
       # Upload Rust binaries
       - uses: taiki-e/upload-rust-binary-action@v1
