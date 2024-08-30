@@ -41,17 +41,21 @@ jobs:
         if: startsWith(matrix.target, 'x86_64-unknown-linux') || startsWith(matrix.target, 'aarch64-unknown-linux')
         run: sudo apt-get update && sudo apt-get install -y make
 
-      # Install OpenSSL and set environment variables on Windows
+      # Install OpenSSL on Windows
       - name: Install OpenSSL (Windows)
         if: matrix.os == 'windows-latest'
         run: choco install openssl
 
+      # Set environment variables for OpenSSL (Windows)
       - name: Set OpenSSL environment variables (Windows)
         if: matrix.os == 'windows-latest'
         run: |
-          echo OPENSSL_DIR="C:/Program Files/OpenSSL-Win64" >> $Env:GITHUB_ENV
-          echo OPENSSL_INCLUDE_DIR="C:/Program Files/OpenSSL-Win64/include" >> $Env:GITHUB_ENV
-          echo OPENSSL_LIB_DIR="C:/Program Files/OpenSSL-Win64/lib" >> $Env:GITHUB_ENV
+          set OPENSSL_DIR=C:\Program Files\OpenSSL-Win64
+          set OPENSSL_INCLUDE_DIR=C:\Program Files\OpenSSL-Win64\include
+          set OPENSSL_LIB_DIR=C:\Program Files\OpenSSL-Win64\lib
+          echo %OPENSSL_DIR%
+          echo %OPENSSL_INCLUDE_DIR%
+          echo %OPENSSL_LIB_DIR%
 
       # Upload Rust binaries
       - uses: taiki-e/upload-rust-binary-action@v1
