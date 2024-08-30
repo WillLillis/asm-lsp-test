@@ -35,16 +35,25 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+
+      # Install dependencies on Linux
       - name: Install dependencies on Linux
         if: startsWith(matrix.target, 'x86_64-unknown-linux') || startsWith(matrix.target, 'aarch64-unknown-linux')
         run: sudo apt-get update && sudo apt-get install -y make
-      - name: Install dependencies on Windows
+
+      # Install OpenSSL and set environment variables on Windows
+      - name: Install OpenSSL (Windows)
+        if: matrix.os == 'windows-latest'
+        run: choco install openssl
+
+      - name: Set OpenSSL environment variables (Windows)
         if: matrix.os == 'windows-latest'
         run: |
-          cpan install Locale::Maketext::Simple
-      - name: Set PERL5LIB environment variable
-        if: matrix.os == 'windows-latest'
-        run: echo PERL5LIB=C:/path/to/installed/perl/libs >> $Env:GITHUB_ENV
+          echo OPENSSL_DIR=C:/Program Files/OpenSSL-Win64 >> $Env:GITHUB_ENV
+          echo OPENSSL_INCLUDE_DIR=C:/Program Files/OpenSSL-Win64/include >> $Env:GITHUB_ENV
+          echo OPENSSL_LIB_DIR=C:/Program Files/OpenSSL-Win64/lib >> $Env:GITHUB_ENV
+
+      # Upload Rust binaries
       - uses: taiki-e/upload-rust-binary-action@v1
         with:
           bin: asm-lsp-test
