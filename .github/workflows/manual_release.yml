@@ -4,9 +4,9 @@ permissions:
   contents: write
 
 on:
-  workflow_dispatch:
-    with:
-      ref: refs/tags/test_tag[0-9]+
+  push:
+    tags:
+      - manual_release[0-9]+
 
 jobs:
   create-release:
