@@ -7,7 +7,7 @@ on:
   push:
     tags:
       # Any tag that ends with "+manual"
-      - v[0-9]+(\.[0-9]+)*\+manual$
+      - v*+manual
 
 jobs:
   create-release:
