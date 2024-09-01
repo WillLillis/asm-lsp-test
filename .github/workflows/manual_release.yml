@@ -6,7 +6,7 @@ permissions:
 on:
   workflow_dispatch:
     with:
-      ref: refs/tags/test_tag0
+      ref: refs/tags/test_tag[0-9]+
 
 jobs:
   create-release:
