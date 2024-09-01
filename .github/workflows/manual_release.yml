@@ -6,7 +6,8 @@ permissions:
 on:
   push:
     tags:
-      - manual/[0-9]+
+      # Any tag that ends with "+manual"
+      - v([0-9]+.)+\+manual$
 
 jobs:
   create-release:
