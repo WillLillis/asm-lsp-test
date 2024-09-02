@@ -59,6 +59,7 @@ jobs:
           [System.Environment]::SetEnvironmentVariable('OPENSSL_DIR', $env:OPENSSL_DIR, [System.EnvironmentVariableTarget]::Machine)
           [System.Environment]::SetEnvironmentVariable('OPENSSL_INCLUDE_DIR', $env:OPENSSL_INCLUDE_DIR, [System.EnvironmentVariableTarget]::Machine)
           [System.Environment]::SetEnvironmentVariable('OPENSSL_LIB_DIR', $env:OPENSSL_LIB_DIR, [System.EnvironmentVariableTarget]::Machine)
+          Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
           refreshenv
 
       # Upload Rust binaries
