@@ -26,8 +26,8 @@ jobs:
         include:
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-latest
-          - target: aarch64-unknown-linux-gnu
-            os: ubuntu-latest
+          # - target: aarch64-unknown-linux-gnu
+          #   os: ubuntu-latest
           - target: x86_64-apple-darwin
             os: macos-latest
           - target: aarch64-apple-darwin
@@ -43,22 +43,22 @@ jobs:
         if: startsWith(matrix.target, 'x86_64-unknown-linux') || startsWith(matrix.target, 'aarch64-unknown-linux')
         run: sudo apt-get update && sudo apt-get install -y make openssl libssl-dev
 
-      # # Install OpenSSL on Windows
-      # - name: Install OpenSSL (Windows)
-      #   if: matrix.os == 'windows-latest'
-      #   run: choco install openssl
-      #
-      # # Set environment variables for OpenSSL (Windows)
-      # - name: Set OpenSSL environment variables (Windows)
-      #   if: matrix.os == 'windows-latest'
-      #   shell: pwsh
-      #   run: |
-      #     $env:OPENSSL_DIR = "C:\Program Files\OpenSSL"
-      #     $env:OPENSSL_INCLUDE_DIR = "C:\Program Files\OpenSSL\include"
-      #     $env:OPENSSL_LIB_DIR = "C:\Program Files\OpenSSL\lib"
-      #     [System.Environment]::SetEnvironmentVariable('OPENSSL_DIR', $env:OPENSSL_DIR, [System.EnvironmentVariableTarget]::Machine)
-      #     [System.Environment]::SetEnvironmentVariable('OPENSSL_INCLUDE_DIR', $env:OPENSSL_INCLUDE_DIR, [System.EnvironmentVariableTarget]::Machine)
-      #     [System.Environment]::SetEnvironmentVariable('OPENSSL_LIB_DIR', $env:OPENSSL_LIB_DIR, [System.EnvironmentVariableTarget]::Machine)
+      # Install OpenSSL on Windows
+      - name: Install OpenSSL (Windows)
+        if: matrix.os == 'windows-latest'
+        run: choco install openssl
+
+      # Set environment variables for OpenSSL (Windows)
+      - name: Set OpenSSL environment variables (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          $env:OPENSSL_DIR = "C:\Program Files\OpenSSL"
+          $env:OPENSSL_INCLUDE_DIR = "C:\Program Files\OpenSSL\include"
+          $env:OPENSSL_LIB_DIR = "C:\Program Files\OpenSSL\lib"
+          [System.Environment]::SetEnvironmentVariable('OPENSSL_DIR', $env:OPENSSL_DIR, [System.EnvironmentVariableTarget]::Machine)
+          [System.Environment]::SetEnvironmentVariable('OPENSSL_INCLUDE_DIR', $env:OPENSSL_INCLUDE_DIR, [System.EnvironmentVariableTarget]::Machine)
+          [System.Environment]::SetEnvironmentVariable('OPENSSL_LIB_DIR', $env:OPENSSL_LIB_DIR, [System.EnvironmentVariableTarget]::Machine)
 
       # Upload Rust binaries
       - uses: taiki-e/upload-rust-binary-action@v1
