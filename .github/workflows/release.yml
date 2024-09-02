@@ -48,6 +48,11 @@ jobs:
         if: runner.os == 'Windows'
       - run: vcpkg install openssl:x64-windows-static-md
         if: runner.os == 'Windows'
+      - name: Set Perl environment variables
+        if: runner.os == 'Windows'
+        run: |
+          echo "PERL=$((where.exe perl)[0])" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          echo "OPENSSL_SRC_PERL=$((where.exe perl)[0])" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
 
       # # Install OpenSSL on Windows
       # - name: Install OpenSSL (Windows)
